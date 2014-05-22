@@ -1,3 +1,7 @@
 Hello World!
 this is a test!
 This is also a test!
+
+2014/5/22
+首先核心的代码都在SceneNodeManager里面，包括了全部的构造与动画内容，其他部分可以根本不看
+其实都是一个模式的

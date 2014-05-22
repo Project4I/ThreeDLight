@@ -43,7 +43,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\gswind123\Documents\Visual Studio 2012\Projects\Editor\Editor\irrlicht-1.7.3\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Workspace\dotnet\ThreeDLight\Editor\irricht\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\gswind123\Documents\Visual Studio 2012\Projects\Editor\Editor\irrlicht-1.7.3\lib\Win32-visualstudio;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
