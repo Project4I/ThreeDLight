@@ -689,10 +689,12 @@ void ISceneNodeManager::setRotation(const core::vector3df& speed)
 
 IMeshSceneNode* ISceneNodeManager::addCylinder(f32 radius, f32 length,u32 tesselation,const video::SColor& color,bool closeTop, f32 oblique){
 	
-	const IGeometryCreator* gc = m_pSceneManager->getGeometryCreator();
-	scene::IMesh *mesh = gc->createCylinderMesh(radius,length,tesselation,color,closeTop,oblique);
-	mesh->getMeshBuffer(0)->setHardwareMappingHint(scene::EHM_STATIC);    
-	scene::IMeshSceneNode* node = m_pSceneManager->addMeshSceneNode(mesh);
+	//const IGeometryCreator* gc = m_pSceneManager->getGeometryCreator();
+	//scene::IMesh *mesh = gc->createCylinderMesh(radius,length,tesselation,color,closeTop,oblique);
+	//mesh->getMeshBuffer(0)->setHardwareMappingHint(scene::EHM_STATIC);    
+	scene::IMeshSceneNode* node = m_pSceneManager->addMeshSceneNode(m_pSceneManager->addVolumeLightMesh("name",32, 32,
+		video::SColor(51, 0, 230, 180),
+		video::SColor(0, 255, 0, 0)));
 	
 
 	
