@@ -346,6 +346,32 @@ IParticleSystemSceneNode* ISceneNodeManager::addParticleSystem (bool withDefault
 
 	if(m_pParticleSystem)
 	{
+		
+		scene::IParticleEmitter* em = m_pParticleSystem->createBoxEmitter(
+			core::aabbox3d<f32>(-7,0,-7,7,1,7), // emitter size
+			core::vector3df(0.0f,0.06f,0.0f),   // initial direction
+			100,200,                             // emit rate
+			video::SColor(50,255,0,255),       // darkest color
+			video::SColor(50,255,255,0),       // brightest color
+			800,2000,0,                         // min and max age, angle
+			core::dimension2df(1.f,1.f),         // min size
+			core::dimension2df(8.f,8.f));        // max size
+
+		m_pParticleSystem->setEmitter(em); // this grabs the emitter
+		em->drop(); // so we can drop it here without deleting it
+
+		scene::IParticleAffector* paf = m_pParticleSystem->createFadeOutParticleAffector();
+
+		m_pParticleSystem->addAffector(paf); // same goes for the affector
+		paf->drop();
+
+		m_pParticleSystem->setPosition(core::vector3df(-70,60,40));
+		m_pParticleSystem->setScale(core::vector3df(2,2,2));
+		m_pParticleSystem->setMaterialFlag(video::EMF_LIGHTING, false);
+		m_pParticleSystem->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
+		//m_pParticleSystem->setMaterialTexture(0, driver->getTexture("../media/fireball.bmp"));
+		m_pParticleSystem->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+
 		ITriangleSelector * selector = m_pSceneManager->createTriangleSelectorFromBoundingBox(m_pParticleSystem);
 		m_pParticleSystem->setTriangleSelector(selector);
 		selector->drop();
@@ -354,6 +380,8 @@ IParticleSystemSceneNode* ISceneNodeManager::addParticleSystem (bool withDefault
 		m_vTexturePos.push_back("null");
 		AnimateInfo Anode;
 		m_vAnimateInfo.push_back(Anode);
+
+
 	}
 	return m_pParticleSystem;	 
 }
