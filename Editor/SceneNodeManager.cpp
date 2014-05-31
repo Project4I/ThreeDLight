@@ -23,7 +23,8 @@ const char * ISceneNodeManager::NodeName[] =
 	"testCylinder",
 	"testCone",
 	"testParticle",
-	"testBillBoardText"
+	"testBillBoardText",
+	"testVolumeLight"
 };
 
 ISceneNodeManager* ISceneNodeManager::getInstance()
@@ -164,8 +165,10 @@ NodeInfo ISceneNodeManager::getCurrentNodeInfo()const
 				info.nodeType = TYPE_CONE;
 			else if(info.name=="testCylinder")
 				info.nodeType = TYPE_CYLINDER;
-			else if(info.name=="testBillBoardText")
+			else if (info.name == "testBillBoardText")
 				info.nodeType = TYPE_BILLTEXT;
+			else if (info.name == "testVolumeLight")
+				info.nodeType = TYPE_LIGHTVOLUME;
 			else
 				info.nodeType = TYPE_NONE;
 			break;
@@ -281,7 +284,6 @@ IAnimatedMeshSceneNode* ISceneNodeManager::addSydney(){
 	}
 	return node;
 }
-
 
 IMeshSceneNode* ISceneNodeManager::addSkyBox(string up,string down,string left,string right,string front,string back){
 	m_pSceneManager->addSkyBoxSceneNode(
@@ -687,17 +689,13 @@ void ISceneNodeManager::setRotation(const core::vector3df& speed)
 }
 
 
-IMeshSceneNode* ISceneNodeManager::addCylinder(f32 radius, f32 length,u32 tesselation,const video::SColor& color,bool closeTop, f32 oblique){
+IMeshSceneNode* ISceneNodeManager::addCylinder(f32 radius, f32 length, u32 tesselation, const video::SColor& color, bool closeTop, f32 oblique){
 	
-	//const IGeometryCreator* gc = m_pSceneManager->getGeometryCreator();
-	//scene::IMesh *mesh = gc->createCylinderMesh(radius,length,tesselation,color,closeTop,oblique);
-	//mesh->getMeshBuffer(0)->setHardwareMappingHint(scene::EHM_STATIC);    
-	scene::IMeshSceneNode* node = m_pSceneManager->addMeshSceneNode(m_pSceneManager->addVolumeLightMesh("name",32, 32,
-		video::SColor(51, 0, 230, 180),
-		video::SColor(0, 255, 0, 0)));
-	
+	const IGeometryCreator* gc = m_pSceneManager->getGeometryCreator();
+	scene::IMesh *mesh = gc->createCylinderMesh(radius,length,tesselation,color,closeTop,oblique);
+	mesh->getMeshBuffer(0)->setHardwareMappingHint(scene::EHM_STATIC);    
+	scene::IMeshSceneNode* node = m_pSceneManager->addMeshSceneNode(mesh);
 
-	
 	if(node)
 	{
 		scene::ITriangleSelector * selector = 
@@ -705,6 +703,29 @@ IMeshSceneNode* ISceneNodeManager::addCylinder(f32 radius, f32 length,u32 tessel
 		node->setTriangleSelector(selector);
 		selector->drop();
 		node->setName(NodeName[TYPE_CYLINDER]);
+		node->setID(numOfNodes++);
+		m_vGeoVector.push_back(node);
+		m_vTexturePos.push_back("null");
+		AnimateInfo Anode;
+		m_vAnimateInfo.push_back(Anode);
+	}
+
+	return node;
+}
+
+IMeshSceneNode* ISceneNodeManager::addVolumeLight(const video::SColor& color, const video::SColor& color2){
+
+	scene::IMeshSceneNode* node = m_pSceneManager->addMeshSceneNode(m_pSceneManager->addVolumeLightMesh("name", 32, 32,
+		color,
+		color2));
+
+	if (node)
+	{
+		scene::ITriangleSelector * selector =
+			m_pSceneManager->createTriangleSelector(node->getMesh(), node);
+		node->setTriangleSelector(selector);
+		selector->drop();
+		node->setName(NodeName[TYPE_LIGHTVOLUME]);
 		node->setID(numOfNodes++);
 		m_vGeoVector.push_back(node);
 		m_vTexturePos.push_back("null");

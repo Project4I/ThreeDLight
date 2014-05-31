@@ -200,6 +200,7 @@ BEGIN
             MENUITEM "圆锥体",                         ID_ADD_CONE_POP
             MENUITEM "公告牌",                         ID_ADD_BILLBOARD
             MENUITEM "粒子效果",                        ID_ADD_PARTICLE
+            MENUITEM "光柱",                          ID_32856
         END
         MENUITEM "重置天空盒",                       ID_RESET_SKYBOX
         MENUITEM "删除当前",                        ID_DELETE_CURRENT
@@ -259,6 +260,7 @@ BEGIN
             MENUITEM "圆锥体",                         ID_ADD_CONE_POP
             MENUITEM "公告牌",                         ID_ADD_BILLBOARD_POP
             MENUITEM "粒子",                          ID_ADD_PARTICLE_POP
+            MENUITEM "光柱",                          ID_32855
         END
         MENUITEM "删除当前",                        ID_DELETE_CURRENT_POP
         POPUP "摄像机"

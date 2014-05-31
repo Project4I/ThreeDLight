@@ -23,7 +23,8 @@ namespace irr
 			TYPE_CYLINDER = 7,
 			TYPE_CONE = 8,
 			TYPE_PARTICLE = 9,
-			TYPE_BILLTEXT=10
+			TYPE_BILLTEXT=10,
+			TYPE_LIGHTVOLUME=11
 		};
 		//动画类型
 		enum AnimType
@@ -83,6 +84,7 @@ namespace irr
 			IMeshSceneNode* m_pCube;
 			IMeshSceneNode* m_pCylinder;
 			IMeshSceneNode* m_pCone;
+			IMeshSceneNode* m_pVolumeLight;
 			IBillboardSceneNode * m_pBillboard;
 			IBillboardTextSceneNode * m_pBillboardText;
 			IParticleSystemSceneNode* m_pParticleSystem;
@@ -241,6 +243,8 @@ namespace irr
 				u32 tesselation = 10,
 				const video::SColor& color=video::SColor(0xffffffff),
 				bool closeTop=true, f32 oblique=0.f);
+
+			IMeshSceneNode* addVolumeLight(const video::SColor& color = video::SColor(51, 0, 230, 180), const video::SColor& color2 = video::SColor(0, 0, 0, 0));
 
 			IMeshSceneNode* addCone(
 				f32 radius = 10.f, f32 length = 10.f, u32 tesselation = 10,

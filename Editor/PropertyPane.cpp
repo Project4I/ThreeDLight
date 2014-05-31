@@ -72,6 +72,8 @@ void CPropertyPane::UpdatePropList()
 	case TYPE_PARTICLE:
 		str_type = "粒子";
 		break;
+	case TYPE_LIGHTVOLUME:
+		str_type = "光柱";
 	default:
 		str_type = "";
 	}
@@ -96,7 +98,8 @@ void CPropertyPane::UpdatePropList()
 		node.nodeType==scene::TYPE_CONE||
 		node.nodeType==scene::TYPE_CYLINDER||
 		node.nodeType == scene::TYPE_BILLTEXT||
-		node.nodeType == scene::TYPE_PARTICLE)
+		node.nodeType == scene::TYPE_PARTICLE||
+		node.nodeType == scene::TYPE_LIGHTVOLUME)
 	{
 		
 		CMFCPropertyGridProperty * pGroup = new CMFCPropertyGridProperty(_T("几何属性"),0,false);
@@ -187,7 +190,7 @@ void CPropertyPane::UpdatePropList()
 		pGroup->AddSubItem(pRot);
 		m_wndPropList.AddProperty(pGroup);
 	}
-	else if(node.nodeType==scene::TYPE_LIGHT)
+	else if (node.nodeType == scene::TYPE_LIGHT || node.nodeType == scene::TYPE_LIGHTVOLUME)
 	{
 		CMFCPropertyGridProperty * pGroup = new CMFCPropertyGridProperty(_T("光照属性"),0,false);
 		CMFCPropertyGridProperty * pPos = new CMFCPropertyGridProperty(_T("位置"),0,false);

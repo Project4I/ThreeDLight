@@ -90,6 +90,8 @@ public:
 	afx_msg void OnAddBillboard();
 	afx_msg void OnAddParticle();
 	afx_msg void OnResetSkybox();
+	afx_msg void OnAddLightVolume();
+	afx_msg void OnAddLightVolumeMain();
 };
 
 

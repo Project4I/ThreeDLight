@@ -69,6 +69,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_ADD_BILLBOARD, &CMainFrame::OnAddBillboard)
 	ON_COMMAND(ID_ADD_PARTICLE, &CMainFrame::OnAddParticle)
 	ON_COMMAND(ID_RESET_SKYBOX, &CMainFrame::OnResetSkybox)
+	ON_COMMAND(ID_32855, &CMainFrame::OnAddLightVolume)
+	ON_COMMAND(ID_32856, &CMainFrame::OnAddLightVolumeMain)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -874,4 +876,24 @@ void CMainFrame::OnResetSkybox()
 			CString2string(skybox.m_strFrontPath),
 			CString2string(skybox.m_strBackPath));
 	}
+}
+
+
+void CMainFrame::OnAddLightVolume()
+{
+	// TODO:  在此添加命令处理程序代码
+	scene::ISceneNodeManager * snmgr =
+		scene::ISceneNodeManager::getInstance();
+	snmgr->addVolumeLight();
+	m_wndTree.UpdateTreeNode();
+}
+
+
+void CMainFrame::OnAddLightVolumeMain()
+{
+	// TODO:  在此添加命令处理程序代码
+	scene::ISceneNodeManager * snmgr =
+		scene::ISceneNodeManager::getInstance();
+	snmgr->addVolumeLight();
+	m_wndTree.UpdateTreeNode();
 }
