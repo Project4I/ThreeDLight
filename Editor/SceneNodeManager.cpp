@@ -365,8 +365,8 @@ IParticleSystemSceneNode* ISceneNodeManager::addParticleSystem (bool withDefault
 		m_pParticleSystem->addAffector(paf); // same goes for the affector
 		paf->drop();
 
-		m_pParticleSystem->setPosition(core::vector3df(-70,60,40));
-		m_pParticleSystem->setScale(core::vector3df(2,2,2));
+		//m_pParticleSystem->setPosition(position);
+		//m_pParticleSystem->setScale(scale);
 		m_pParticleSystem->setMaterialFlag(video::EMF_LIGHTING, false);
 		m_pParticleSystem->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 		//m_pParticleSystem->setMaterialTexture(0, driver->getTexture("../media/fireball.bmp"));
