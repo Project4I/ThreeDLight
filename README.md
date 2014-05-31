@@ -1,4 +1,0 @@
-ThreeDLight
-===========
-
-Hello World!
