@@ -190,7 +190,7 @@ void CPropertyPane::UpdatePropList()
 		pGroup->AddSubItem(pRot);
 		m_wndPropList.AddProperty(pGroup);
 	}
-	else if (node.nodeType == scene::TYPE_LIGHT || node.nodeType == scene::TYPE_LIGHTVOLUME)
+	else if (node.nodeType == scene::TYPE_LIGHT)
 	{
 		CMFCPropertyGridProperty * pGroup = new CMFCPropertyGridProperty(_T("光照属性"),0,false);
 		CMFCPropertyGridProperty * pPos = new CMFCPropertyGridProperty(_T("位置"),0,false);
@@ -254,6 +254,195 @@ void CPropertyPane::UpdatePropList()
 
 		pGroup->AddSubItem(pPos);
 		pGroup->AddSubItem(pColor);
+		pGroup->AddSubItem(pProp);
+		m_wndPropList.AddProperty(pGroup);
+	}
+	if (node.nodeType == scene::TYPE_PARTICLE)
+	{
+		IParticleSystemSceneNode* nd = (IParticleSystemSceneNode*) (&node);
+		CMFCPropertyGridProperty * pGroup = new CMFCPropertyGridProperty(_T("粒子属性"), 0, false);
+		CMFCPropertyGridProperty * pPos = new CMFCPropertyGridProperty(_T("发射粒子数"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("最小"), ftos(node.pi.minNumber));
+		pProp->AllowEdit(true);
+		pPos->AddSubItem(pProp);
+		pIdProp.pId = Part_V_Small;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("最大"), ftos(node.pi.maxNumber));
+		pProp->AllowEdit(true);
+		pPos->AddSubItem(pProp);
+		pIdProp.pId = Part_V_Large;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		CMFCPropertyGridProperty * pColor1 = new CMFCPropertyGridProperty(_T("最小颜色"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("Alpha"), ftos(node.pi.minColor.getAlpha()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_A;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Red"), ftos(node.pi.minColor.getRed()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_R;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+
+		pProp = new CMFCPropertyGridProperty(_T("Green"), ftos(node.pi.minColor.getGreen()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_G;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Blue"), ftos(node.pi.minColor.getBlue()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_B;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		CMFCPropertyGridProperty * pColor2 = new CMFCPropertyGridProperty(_T("最大颜色"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("Alpha"), ftos(node.pi.maxColor.getAlpha()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2A;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Red"), ftos(node.pi.maxColor.getRed()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2R;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+
+		pProp = new CMFCPropertyGridProperty(_T("Green"), ftos(node.pi.maxColor.getGreen()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2G;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Blue"), ftos(node.pi.maxColor.getBlue()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2B;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		CMFCPropertyGridProperty * pMinSize = new CMFCPropertyGridProperty(_T("最小大小"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("W"), ftos(node.pi.minStartSize.Width));
+		pProp->AllowEdit(true);
+		pMinSize->AddSubItem(pProp);
+		pIdProp.pId = Part_W_Small;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("H"), ftos(node.pi.minStartSize.Height));
+		pProp->AllowEdit(true);
+		pMinSize->AddSubItem(pProp);
+		pIdProp.pId = Part_H_Small;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		CMFCPropertyGridProperty * pMaxSize = new CMFCPropertyGridProperty(_T("最大大小"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("W"), ftos(node.pi.maxStartSize.Width));
+		pProp->AllowEdit(true);
+		pMaxSize->AddSubItem(pProp);
+		pIdProp.pId = Part_W_Large;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("H"), ftos(node.pi.maxStartSize.Height));
+		pProp->AllowEdit(true);
+		pMaxSize->AddSubItem(pProp);
+		pIdProp.pId = Part_H_Large;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		CMFCPropertyGridProperty * pDir = new CMFCPropertyGridProperty(_T("发射方向"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("X"), ftos(node.pi.direction.X));
+		pProp->AllowEdit(true);
+		pDir->AddSubItem(pProp);
+		pIdProp.pId = D_X;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Y"), ftos(node.pi.direction.Y));
+		pProp->AllowEdit(true);
+		pDir->AddSubItem(pProp);
+		pIdProp.pId = D_Y;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Z"), ftos(node.pi.direction.Z));
+		pProp->AllowEdit(true);
+		pDir->AddSubItem(pProp);
+		pIdProp.pId = D_Z;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		CMFCPropertyGridProperty * pLive = new CMFCPropertyGridProperty(_T("生存时间"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("最小生存时间"), ftos(node.pi.minLifeTime));
+		pProp->AllowEdit(true);
+		pLive->AddSubItem(pProp);
+		pIdProp.pId = Part_Life_Small;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("最大生存时间"), ftos(node.pi.maxLifeTime));
+		pProp->AllowEdit(true);
+		pLive->AddSubItem(pProp);
+		pIdProp.pId = Part_Life_Large;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		CMFCPropertyGridProperty * pMisc = new CMFCPropertyGridProperty(_T("杂项"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("发射器形状"), _T(""));
+		pProp->AllowEdit(true);
+		pProp->AddOption(_T("Box"));
+		pProp->AddOption(_T("Cylinder"));
+		pProp->AddOption(_T("Sphere"));
+		pProp->AddOption(_T("Ring"));
+		pProp->AddOption(_T("Point"));
+		pMisc->AddSubItem(pProp);
+		pIdProp.pId = Part_Misc_Shape;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("粒子运动"), _T(""));
+		pProp->AllowEdit(true);
+		pProp->AddOption(_T("Attract"));
+		pProp->AddOption(_T("Detract"));
+		pProp->AddOption(_T("Scale"));
+		pProp->AddOption(_T("FadeOut"));
+		pProp->AddOption(_T("Gravity"));
+		pProp->AddOption(_T("Rotation"));
+		pMisc->AddSubItem(pProp);
+		pIdProp.pId = Part_Misc_Motion;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("最大偏角"), ftos(node.pi.maxAngle));
+		pProp->AllowEdit(true);
+		pIdProp.pId = D_Angle;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pGroup->AddSubItem(pPos);
+		pGroup->AddSubItem(pDir);
+		pGroup->AddSubItem(pColor1);
+		pGroup->AddSubItem(pColor2);
+		pGroup->AddSubItem(pMinSize);
+		pGroup->AddSubItem(pMaxSize);
+		pGroup->AddSubItem(pLive);
+		pGroup->AddSubItem(pMisc);
 		pGroup->AddSubItem(pProp);
 		m_wndPropList.AddProperty(pGroup);
 	}
@@ -337,6 +526,10 @@ void CPaneCtrl::OnPropertyChanged(CMFCPropertyGridProperty* pProp) const
 		else
 			b_res = false;
 	}
+	else if (prop.pId == Part_Misc_Shape || prop.pId == Part_Misc_Motion)
+	{
+		str_res = CString2string(str);
+	}
 	else
 	{
 		if(isNumber(str))
@@ -379,15 +572,19 @@ void CPaneCtrl::OnPropertyChanged(CMFCPropertyGridProperty* pProp) const
 		break;
 	case C_A:
 		node.color.a = res;
+		node.pi.minColor.setAlpha(res);
 		break;
 	case C_R:
 		node.color.r = res;
+		node.pi.minColor.setRed(res);
 		break;
 	case C_G:
 		node.color.g = res;
+		node.pi.minColor.setGreen(res);
 		break;
 	case C_B:
 		node.color.b = res;
+		node.pi.minColor.setBlue(res);
 		break;
 	case E_LIGHT:
 		node.enableLight = b_res;
@@ -397,6 +594,62 @@ void CPaneCtrl::OnPropertyChanged(CMFCPropertyGridProperty* pProp) const
 		break;
 	case NAME:
 		node.name = str_res;
+		break;
+	case Part_V_Small:
+		node.pi.minNumber = res;
+		break;
+	case Part_V_Large:
+		node.pi.maxNumber = res;
+		break;
+	case D_X:
+		node.pi.direction.X = res;
+		break;
+	case D_Y:
+		node.pi.direction.Y = res;
+		break;
+	case D_Z:
+		node.pi.direction.Z = res;
+		break;
+	case C_2A:
+		node.pi.maxColor.setAlpha(res);
+		break;
+	case C_2R:
+		node.pi.maxColor.setRed(res);
+		break;
+	case C_2G:
+		node.pi.maxColor.setGreen(res);
+		break;
+	case C_2B:
+		node.pi.maxColor.setBlue(res);
+		break;
+	case Part_H_Large:
+		node.pi.maxStartSize.Height = res;
+		break;
+	case Part_W_Large:
+		node.pi.maxStartSize.Width = res;
+		break;
+	case Part_H_Small:
+		node.pi.minStartSize.Height = res;
+		break;
+	case Part_W_Small:
+		node.pi.minStartSize.Width = res;
+		break;
+	case D_Angle:
+		node.pi.maxAngle = res;
+		break;
+	case Part_Life_Small:
+		node.pi.minLifeTime = res;
+		break;
+	case Part_Life_Large:
+		node.pi.maxLifeTime = res;
+		break;
+	case Part_Misc_Shape:
+		node.pi.shape = str_res;
+		node.pi.massChange = true;
+		break;
+	case Part_Misc_Motion:
+		node.pi.motion = str_res;
+		node.pi.massChange = true;
 		break;
 	default:break;
 	}

@@ -34,6 +34,22 @@ namespace irr
 			AT_CYCLE,
 			AT_ROTATION
 		};
+		struct ParticleInfo
+		{
+			bool massChange;
+			u32 minNumber;
+			u32 maxNumber;
+			std::string shape;
+			std::string motion;
+			video::SColor minColor;
+			video::SColor maxColor;
+			core::dimension2df minStartSize;
+			core::dimension2df maxStartSize;
+			core::vector3df direction;
+			u32 minLifeTime;
+			u32 maxLifeTime;
+			s32 maxAngle;
+		};
 		//节点属性结构体，用于传递节点属性
 		struct NodeInfo{
 			s32 nodeID;
@@ -45,6 +61,7 @@ namespace irr
 			core::vector3df rotate;
 			video::SColorf color;
 			f32 radius;
+			ParticleInfo pi;
 		};
 		struct AnimateInfo{
 			int animateType;

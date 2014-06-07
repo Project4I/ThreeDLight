@@ -2,6 +2,7 @@
 #include "SceneNodeManager.h"
 #include "UIListener.h"
 #include <fstream>
+#include <typeinfo>
 
 using namespace irr;
 using namespace scene;
@@ -186,6 +187,22 @@ NodeInfo ISceneNodeManager::getCurrentNodeInfo()const
 			info.radius = light.Radius;
 			info.color = light.AmbientColor;
 		}
+		if (info.nodeType == TYPE_PARTICLE)
+		{
+			IParticleSystemSceneNode* part_node = (IParticleSystemSceneNode*)m_pCurrentNode;
+			IParticleEmitter* emit = part_node->getEmitter();
+			info.pi.massChange = false;
+			info.pi.minNumber = emit->getMinParticlesPerSecond();
+			info.pi.maxNumber = emit->getMaxParticlesPerSecond();
+			info.pi.direction = emit->getDirection();
+			info.pi.maxAngle = emit->getMaxAngleDegrees();
+			info.pi.minColor = emit->getMinStartColor();
+			info.pi.maxColor = emit->getMaxStartColor();
+			info.pi.maxLifeTime = emit->getMaxLifeTime();
+			info.pi.minLifeTime = emit->getMinLifeTime();
+			info.pi.maxStartSize = emit->getMaxStartSize();
+			info.pi.minStartSize = emit->getMinStartSize();
+		}
 	}
 	return info;
 }
@@ -346,7 +363,6 @@ IParticleSystemSceneNode* ISceneNodeManager::addParticleSystem (bool withDefault
 
 	if(m_pParticleSystem)
 	{
-		
 		scene::IParticleEmitter* em = m_pParticleSystem->createBoxEmitter(
 			core::aabbox3d<f32>(-7,0,-7,7,1,7), // emitter size
 			core::vector3df(0.0f,0.06f,0.0f),   // initial direction
@@ -425,6 +441,85 @@ void ISceneNodeManager::setCurrentValue(NodeInfo node)
 			light.DiffuseColor = node.color;
 			light.SpecularColor = node.color;
 			light_node->setLightData(light);
+		}
+		if (node.nodeType == TYPE_PARTICLE)
+		{
+			IParticleSystemSceneNode* part_node = (IParticleSystemSceneNode*) m_pCurrentNode;
+			IParticleEmitter* emit = part_node->getEmitter();
+			if (node.pi.massChange)
+			{
+				if (!node.pi.shape.compare("Cylinder"))
+				{
+					emit = part_node->createCylinderEmitter(core::vector3df(0, 0, 0), 5, core::vector3df(0, 0, 0), 5);
+				}
+				else if (!node.pi.shape.compare("Sphere"))
+				{
+					emit = part_node->createSphereEmitter(core::vector3df(0, 0, 0), 5);
+				}
+				else if (!node.pi.shape.compare("Ring"))
+				{
+					emit = part_node->createRingEmitter(core::vector3df(0, 0, 0), 5, 5);
+				}
+				else if (!node.pi.shape.compare("Point"))
+				{
+					emit = part_node->createPointEmitter();
+				}
+				else
+				{
+					emit = part_node->createBoxEmitter(core::aabbox3d<f32>(-7, 0, -7, 7, 1, 7));
+				}
+
+				part_node->removeAllAffectors();
+				scene::IParticleAffector* paf;
+				if (!node.pi.motion.compare("Attract"))
+				{
+					paf = part_node->createAttractionAffector(node.position, 1.0f, true);
+					part_node->addAffector(paf);
+					paf->drop();
+				}
+				else if (!node.pi.motion.compare("Detract"))
+				{
+					paf = part_node->createAttractionAffector(node.position, 1.0f, false, false, false, false);
+					part_node->addAffector(paf);
+					paf->drop();
+				}
+				else if (!node.pi.motion.compare("Scale"))
+				{
+					paf = part_node->createScaleParticleAffector(core::dimension2df(10.0f, 10.0f));
+					part_node->addAffector(paf);
+					paf->drop();
+				}
+				else if (!node.pi.motion.compare("Gravity"))
+				{
+					paf = part_node->createGravityAffector();
+					part_node->addAffector(paf);
+					paf->drop();
+				}
+				else if (!node.pi.motion.compare("Rotation"))
+				{
+					paf = part_node->createRotationAffector();
+					part_node->addAffector(paf);
+					paf->drop();
+				}
+				else
+				{
+					paf = part_node->createFadeOutParticleAffector();
+					part_node->addAffector(paf);
+					paf->drop();
+				}
+			}
+			emit->setMaxParticlesPerSecond(node.pi.maxNumber);
+			emit->setMinParticlesPerSecond(node.pi.minNumber);
+			emit->setMaxStartColor(node.pi.maxColor);
+			emit->setMinStartColor(node.pi.minColor);
+			emit->setMaxStartSize(node.pi.maxStartSize);
+			emit->setMinStartSize(node.pi.minStartSize);
+			emit->setDirection(node.pi.direction);
+			emit->setMaxAngleDegrees(node.pi.maxAngle);
+			emit->setMaxLifeTime(node.pi.maxLifeTime);
+			emit->setMinLifeTime(node.pi.minLifeTime);
+			part_node->setEmitter(emit);
+			node.pi.massChange = false;
 		}
 	}
 }
