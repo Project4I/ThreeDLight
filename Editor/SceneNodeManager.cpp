@@ -1,7 +1,9 @@
 ﻿#include "stdafx.h"
 #include "SceneNodeManager.h"
 #include "UIListener.h"
+#include "converter.h"
 #include <fstream>
+#include <iostream>
 #include <typeinfo>
 
 using namespace irr;
@@ -387,7 +389,7 @@ IParticleSystemSceneNode* ISceneNodeManager::addParticleSystem (bool withDefault
 		m_pParticleSystem->setMaterialFlag(video::EMF_ZWRITE_ENABLE, false);
 		//m_pParticleSystem->setMaterialTexture(0, driver->getTexture("../media/fireball.bmp"));
 		m_pParticleSystem->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
-
+		
 		ITriangleSelector * selector = m_pSceneManager->createTriangleSelectorFromBoundingBox(m_pParticleSystem);
 		m_pParticleSystem->setTriangleSelector(selector);
 		selector->drop();
@@ -396,8 +398,6 @@ IParticleSystemSceneNode* ISceneNodeManager::addParticleSystem (bool withDefault
 		m_vTexturePos.push_back("null");
 		AnimateInfo Anode;
 		m_vAnimateInfo.push_back(Anode);
-
-
 	}
 	return m_pParticleSystem;	 
 }
@@ -414,8 +414,6 @@ void ISceneNodeManager::initial(IrrlichtDevice * device)
 	instance->m_pCurrentNode = NULL;
 	instance->m_bInitial = true;
 	numOfNodes = 0;
-
-
 }
 
 IrrlichtDevice * ISceneNodeManager::getDevice()const
@@ -836,11 +834,17 @@ IMeshSceneNode* ISceneNodeManager::addCylinder(f32 radius, f32 length, u32 tesse
 	return node;
 }
 
-IMeshSceneNode* ISceneNodeManager::addVolumeLight(const video::SColor& color, const video::SColor& color2){
+IMeshSceneNode* ISceneNodeManager::addVolumeLight(){
 
-	scene::IMeshSceneNode* node = m_pSceneManager->addMeshSceneNode(m_pSceneManager->addVolumeLightMesh("name", 32, 32,
+	srand((unsigned)time(NULL));
+	video::SColor color = video::SColor(rand() % 255, rand() % 255, rand() % 255, rand() % 255);
+	video::SColor color2 = video::SColor(rand() % 255, rand() % 255, rand() % 255, rand() % 255);
+	scene::IMeshSceneNode* node = m_pSceneManager->addMeshSceneNode(m_pSceneManager->addVolumeLightMesh((LPSTR)(LPCTSTR)ftos((unsigned)time), 32, 32,
 		color,
-		color2));
+		color2), 0, -1,
+		core::vector3df(0, 0, 0),
+		core::vector3df(0, 0, 0),
+		core::vector3df(10.0f, 10.0f, 10.0f));
 
 	if (node)
 	{

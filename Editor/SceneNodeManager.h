@@ -261,7 +261,7 @@ namespace irr
 				const video::SColor& color=video::SColor(0xffffffff),
 				bool closeTop=true, f32 oblique=0.f);
 
-			IMeshSceneNode* addVolumeLight(const video::SColor& color = video::SColor(51, 0, 230, 180), const video::SColor& color2 = video::SColor(0, 0, 0, 0));
+			IMeshSceneNode* addVolumeLight();
 
 			IMeshSceneNode* addCone(
 				f32 radius = 10.f, f32 length = 10.f, u32 tesselation = 10,

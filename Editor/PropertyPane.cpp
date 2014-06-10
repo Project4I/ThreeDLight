@@ -251,10 +251,74 @@ void CPropertyPane::UpdatePropList()
 		pIdProp.pProp = pProp;
 		m_wndPropList.idPropList.push_back(pIdProp);
 		
-
 		pGroup->AddSubItem(pPos);
 		pGroup->AddSubItem(pColor);
 		pGroup->AddSubItem(pProp);
+		m_wndPropList.AddProperty(pGroup);
+	}
+	if (node.nodeType == scene::TYPE_LIGHTVOLUME)
+	{
+		CMFCPropertyGridProperty * pGroup = new CMFCPropertyGridProperty(_T("光柱属性"), 0, false);
+		CMFCPropertyGridProperty * pColor1 = new CMFCPropertyGridProperty(_T("颜色A"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("Alpha"), ftos(node.pi.minColor.getAlpha()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_A;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Red"), ftos(node.pi.minColor.getRed()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_R;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Green"), ftos(node.pi.minColor.getGreen()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_G;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Blue"), ftos(node.pi.minColor.getBlue()));
+		pProp->AllowEdit(true);
+		pColor1->AddSubItem(pProp);
+		pIdProp.pId = C_B;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+		
+		CMFCPropertyGridProperty * pColor2 = new CMFCPropertyGridProperty(_T("颜色B"), 0, false);
+		pProp = new CMFCPropertyGridProperty(_T("Alpha"), ftos(node.pi.maxColor.getAlpha()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2A;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Red"), ftos(node.pi.maxColor.getRed()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2R;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Green"), ftos(node.pi.maxColor.getGreen()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2G;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pProp = new CMFCPropertyGridProperty(_T("Blue"), ftos(node.pi.maxColor.getBlue()));
+		pProp->AllowEdit(true);
+		pColor2->AddSubItem(pProp);
+		pIdProp.pId = C_2B;
+		pIdProp.pProp = pProp;
+		m_wndPropList.idPropList.push_back(pIdProp);
+
+		pGroup->AddSubItem(pColor1);
+		pGroup->AddSubItem(pColor2);
 		m_wndPropList.AddProperty(pGroup);
 	}
 	if (node.nodeType == scene::TYPE_PARTICLE)
@@ -366,7 +430,7 @@ void CPropertyPane::UpdatePropList()
 		pIdProp.pProp = pProp;
 		m_wndPropList.idPropList.push_back(pIdProp);
 
-		CMFCPropertyGridProperty * pDir = new CMFCPropertyGridProperty(_T("发射方向"), 0, false);
+		CMFCPropertyGridProperty * pDir = new CMFCPropertyGridProperty(_T("发射速度"), 0, false);
 		pProp = new CMFCPropertyGridProperty(_T("X"), ftos(node.pi.direction.X));
 		pProp->AllowEdit(true);
 		pDir->AddSubItem(pProp);
@@ -416,7 +480,7 @@ void CPropertyPane::UpdatePropList()
 		pIdProp.pProp = pProp;
 		m_wndPropList.idPropList.push_back(pIdProp);
 
-		pProp = new CMFCPropertyGridProperty(_T("粒子运动"), _T(""));
+		pProp = new CMFCPropertyGridProperty(_T("干涉类型"), _T(""));
 		pProp->AllowEdit(true);
 		pProp->AddOption(_T("Attract"));
 		pProp->AddOption(_T("Detract"));
