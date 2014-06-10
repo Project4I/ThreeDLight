@@ -495,7 +495,7 @@ void ISceneNodeManager::setCurrentValue(NodeInfo node)
 				}
 				else if (!node.pi.motion.compare("Rotation"))
 				{
-					paf = part_node->createRotationAffector();
+					paf = part_node->createRotationAffector(core::vector3df(50.0f, 50.0f, 50.0f));
 					part_node->addAffector(paf);
 					paf->drop();
 				}
